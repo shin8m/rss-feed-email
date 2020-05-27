@@ -1,0 +1,11 @@
+from = "no-reply@my-host.com"
+to = "your-email-address"
+subject = "Daily RSS Feeds"
+
+host = "my-host"
+port = 587
+username = "username"
+password = "password"
+
+FeedUrl = "my-feed-url"
+ReaderUrl = "reader url"
