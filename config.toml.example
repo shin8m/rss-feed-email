@@ -7,5 +7,11 @@ port = 587
 username = "username"
 password = "password"
 
-FeedUrl = "my-feed-url"
-ReaderUrl = "reader url"
+[feeds]
+    [feeds.my-feed]
+    url = "https://example/it.rss"
+    readerURL = "https://example"
+
+    [feeds.my-feed2]
+    url = "https://example/it.rss"
+    readerURL = "https://example"

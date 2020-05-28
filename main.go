@@ -8,6 +8,7 @@ import (
 	"gopkg.in/gomail.v2"
 )
 
+// Config is configuration
 type Config struct {
 	From     string
 	To       string
@@ -16,8 +17,13 @@ type Config struct {
 	Port     int
 	Username string
 	Password string
-	FeedUrl  string
-	ReaderUrl  string
+	Feeds map[string]feed
+}
+
+type feed struct {
+	Name string
+	URL string
+	ReaderURL string
 }
 
 func sendMail(c Config, text string) {
@@ -36,23 +42,28 @@ func sendMail(c Config, text string) {
 
 func fetchFeed(c Config) string {
 	fp := gofeed.NewParser()
-
-	feed, _ := fp.ParseURL(c.FeedUrl)
-	items := feed.Items
-
 	var sb strings.Builder
 
-	for _, item := range items {
-		sb.WriteString(item.Title)
-		sb.WriteString("\n")
-		sb.WriteString(item.Link)
-		sb.WriteString("\n")
-		sb.WriteString("\n")
-	}
+	for key, fs := range c.Feeds {
+		f, _ := fp.ParseURL(fs.URL)
+		items := f.Items
 
-	sb.WriteString("\n")
-	sb.WriteString("Read:")
-	sb.WriteString(c.ReaderUrl)
+		sb.WriteString("------------------------------------------------------------------------------------------------------------\n")
+		sb.WriteString(key)
+		sb.WriteString("\n")
+		sb.WriteString("------------------------------------------------------------------------------------------------------------\n")
+		sb.WriteString("\n")
+
+		for _, item := range items {
+			sb.WriteString(item.Title)
+			sb.WriteString("\n")
+			sb.WriteString(item.Link)
+			sb.WriteString("\n\n")
+		}
+		sb.WriteString("\nRead: ")
+		sb.WriteString(fs.ReaderURL)
+		sb.WriteString("\n\n")
+	}
 
 	return sb.String()
 }
