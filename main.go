@@ -21,7 +21,6 @@ type Config struct {
 }
 
 type feed struct {
-	Name string
 	URL string
 	ReaderURL string
 }
